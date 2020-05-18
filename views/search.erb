@@ -1,0 +1,58 @@
+
+<h2 class="content-subhead">Search</h2>
+
+<form action="/search" method="get">
+  <input name="query" value="<%= params[:query] %>"/>
+  <button type="submit">Search</button>
+</form>
+
+<% if params[:query] %>
+  <% if @results.empty? %>
+    <p>Sorry, no matches were found.</p>
+  <% else %>
+    <h2 class="content-subhead">Results for '<%= params[:query]%>'</h2>
+
+    <ul>
+      <% @results.each do |result| %>
+        <li>
+        	<h4><%= result[:name] %></h4>
+        	<ul>
+        		<% result[:paragraphs].each do |index, text| %>
+        		<li>
+        			<a href="/chapters/<%=result[:number]%>#paragraph<%= index %>">
+        				<%= highlight(text,params[:query]) %>
+        			</a>
+        		</li>
+        		<% end %>
+        	</ul>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+<% end %>
+
+
+<!--          My original solution    			-->
+<!-- <h2 class="content-subhead">Search</h2>
+
+<form action="/search" method="get">
+  <input name="query" value="<%= params[:query] %>">
+  <button type="submit">Search</button>
+</form>
+
+<% if !@search_result.nil? %>
+	<% if @search_result == false %>
+		<p> Sorry, no matches were found </p>
+	<% else %>
+		<h2 class="content-subhead">Results for '<%=params[:query] %>'</h2>
+		<ul>
+			<% @search_result.each do |chapter, chapter_title| %>
+			<li>
+				<a href="/chapters/<%= chapter %>"><%= chapter_title %> </a>
+			</li>
+			<% end %>
+		</ul>
+	<% end %>
+<% end %>
+ -->
